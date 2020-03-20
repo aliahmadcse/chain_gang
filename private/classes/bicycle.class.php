@@ -98,6 +98,11 @@ class Bicycle
         $this->weight_kg    = $args['weight_kg']    ?? 0.0;
     }
 
+    public function name()
+    {
+        return "{$this->brand} {$this->model} {$this->year}";
+    }
+
     public function price()
     {
         return floatval($this->price);

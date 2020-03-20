@@ -13,7 +13,7 @@ if (!$id) {
 $bike = Bicycle::find_by_id($id);
 ?>
 
-<?php $page_title = 'Detail'; ?>
+<?php $page_title = 'Detail: ' . $bike->name(); ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
 <div id="main">
