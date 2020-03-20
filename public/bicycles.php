@@ -30,11 +30,8 @@
       $parser = new ParseCSV(PRIVATE_PATH . '/used_bicycles.csv');
       $bike_array = $parser->parse();
 
-      // print_r($bike_array);
       foreach ($bike_array as $args) {
-        // $args = ['brand' => 'Trek', 'model' => 'Emonda', 'year' => '2017'];
         $bicylce = new Bicycle($args);
-
       ?>
         <tr>
           <td><?php echo h($bicylce->brand); ?></td>
