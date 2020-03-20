@@ -39,3 +39,5 @@ spl_autoload_register('my_autoload');
 
 // creating database connection
 $database = db_connect();
+
+Bicycle::set_database($database);

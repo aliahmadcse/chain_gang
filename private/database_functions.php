@@ -15,3 +15,10 @@ function confirm_db_connect($connection)
         exit($msj);
     }
 }
+
+function db_disconnect($connection)
+{
+    if (isset($connection)) {
+        $connection->close();
+    }
+}

@@ -46,6 +46,16 @@
         </tr>
       <?php } ?>
     </table>
+
+    <?php
+    $result = Bicycle::find_all();
+    
+    while ($row = $result->fetch_assoc()) {
+      echo "Brand:  " . $row['brand'];
+    }
+
+    $result->free();
+    ?>
   </div>
 
 </div>

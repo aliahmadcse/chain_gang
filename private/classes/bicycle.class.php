@@ -1,6 +1,29 @@
 <?php
 class Bicycle
 {
+    // ----Start of active record code----
+    protected static $database;
+    public static function set_database($database)
+    {
+        self::$database = $database;
+    }
+
+    public static function find_by_sql($sql)
+    {
+        $result = self::$database->query($sql);
+        if (!$result) {
+            exit("Database query failed.");
+        }
+        return $result;
+    }
+
+    public static function find_all()
+    {
+        $sql = "SELECT * FROM bicycles";
+        return self::find_by_sql($sql);
+    }
+    // ----End of active record code----
+
     //class constants
     public const CATEGORIES = [
         'Hybrid', 'Road', 'City', 'Mountain', 'Cruiser', 'BMX'
