@@ -2,10 +2,15 @@
 
 <?php
 
-  // Get requested ID
+// Get requested ID
+$id = $_GET['id'] ?? false;
 
-  // Find bicycle using ID
+if (!$id) {
+  redirect_to(url_for("/bicycles.php"));
+}
 
+// Find bicycle using ID
+$bike = Bicycle::find_by_id($id);
 ?>
 
 <?php $page_title = 'Detail'; ?>
@@ -52,7 +57,7 @@
       </dl>
       <dl>
         <dt>Price</dt>
-        <dd><?php echo h(money_format('$%i', $bike->price)); ?></dd>
+        <dd><?php echo "$" . h(number_format($bike->price(), 2)); ?></dd>
       </dl>
       <dl>
         <dt>Description</dt>

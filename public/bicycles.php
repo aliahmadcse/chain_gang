@@ -22,9 +22,8 @@
         <th>Category</th>
         <th>Gender</th>
         <th>Color</th>
-        <th>Weight</th>
-        <th>Condition</th>
         <th>Price</th>
+        <th>&nbsp;</th>
       </tr>
       <?php
       $bicylce_objects_array = Bicycle::find_all();
@@ -37,9 +36,8 @@
           <td><?php echo h($bicylce->category); ?></td>
           <td><?php echo h($bicylce->gender); ?></td>
           <td><?php echo h($bicylce->color); ?></td>
-          <td><?php echo h($bicylce->weight_kg()) . ' / ' . h($bicylce->weight_lbs()); ?></td>
-          <td><?php echo h($bicylce->condition()); ?></td>
           <td><?php echo "$" . h(number_format($bicylce->price(), 2)); ?></td>
+          <td><a href="detail.php?id=<?php echo h($bicylce->id); ?>">View</a></td>
         </tr>
       <?php } ?>
     </table>
