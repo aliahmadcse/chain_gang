@@ -27,11 +27,8 @@
         <th>Price</th>
       </tr>
       <?php
-      $parser = new ParseCSV(PRIVATE_PATH . '/used_bicycles.csv');
-      $bike_array = $parser->parse();
-
-      foreach ($bike_array as $args) {
-        $bicylce = new Bicycle($args);
+      $bicylce_objects_array = Bicycle::find_all();
+      foreach ($bicylce_objects_array as $bicylce) {
       ?>
         <tr>
           <td><?php echo h($bicylce->brand); ?></td>
@@ -47,15 +44,6 @@
       <?php } ?>
     </table>
 
-    <?php
-    $result = Bicycle::find_all();
-    
-    while ($row = $result->fetch_assoc()) {
-      echo "Brand:  " . $row['brand'];
-    }
-
-    $result->free();
-    ?>
   </div>
 
 </div>

@@ -14,7 +14,15 @@ class Bicycle
         if (!$result) {
             exit("Database query failed.");
         }
-        return $result;
+        // results into objects
+        $object_array = [];
+
+        while ($record = $result->fetch_assoc()) {
+            $object_array[] = self::instantiate($record);
+        }
+
+        $result->free();
+        return $object_array;
     }
 
     public static function find_all()
@@ -22,6 +30,31 @@ class Bicycle
         $sql = "SELECT * FROM bicycles";
         return self::find_by_sql($sql);
     }
+
+    public static function find_by_id($id)
+    {
+        $sql = "SELECT * FROM bicycles ";
+        $sql .= "WHERE id='" . self::$database->escape_string($id) . "'";
+        $obj_array = self::find_by_sql($sql);
+        if (!empty($obj_array)) {
+            // removes and return the first element from the array
+            return array_shift($obj_array);
+        } else {
+            return false;
+        }
+    }
+
+    public static function instantiate($record)
+    {
+        $object = new self;
+        foreach ($record as $property => $value) {
+            if (property_exists($object, $property)) {
+                $object->$property = $value;
+            }
+        }
+        return $object;
+    }
+
     // ----End of active record code----
 
     //class constants
@@ -38,6 +71,7 @@ class Bicycle
     ];
 
     // class properties
+    public      $id;
     public      $brand;
     public      $model;
     public      $year;
