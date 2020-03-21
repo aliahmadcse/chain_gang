@@ -9,12 +9,12 @@ if (is_post_request()) {
   foreach ($_POST as $key => $value) {
     $args[$key] = $value ?? NULL;
   }
-  
-  $bicycle = [];
 
-  $result = false;
+  $bicycle = new Bicycle($args);
+  $result = $bicycle->create();
+
   if ($result === true) {
-    $new_id = 0;
+    $new_id = $bicycle->id;
     $_SESSION['message'] = 'The bicycle was created successfully.';
     redirect_to(url_for('/staff/bicycles/show.php?id=' . $new_id));
   } else {

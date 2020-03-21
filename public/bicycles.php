@@ -26,18 +26,18 @@
         <th>&nbsp;</th>
       </tr>
       <?php
-      $bicylce_objects_array = Bicycle::find_all();
-      foreach ($bicylce_objects_array as $bicylce) {
+      $bicycle_objects_array = Bicycle::find_all();
+      foreach ($bicycle_objects_array as $bicycle) {
       ?>
         <tr>
-          <td><?php echo h($bicylce->brand); ?></td>
-          <td><?php echo h($bicylce->model); ?></td>
-          <td><?php echo h($bicylce->year); ?></td>
-          <td><?php echo h($bicylce->category); ?></td>
-          <td><?php echo h($bicylce->gender); ?></td>
-          <td><?php echo h($bicylce->color); ?></td>
-          <td><?php echo "$" . h(number_format($bicylce->price(), 2)); ?></td>
-          <td><a href="detail.php?id=<?php echo h($bicylce->id); ?>">View</a></td>
+          <td><?php echo h($bicycle->brand); ?></td>
+          <td><?php echo h($bicycle->model); ?></td>
+          <td><?php echo h($bicycle->year); ?></td>
+          <td><?php echo h($bicycle->category); ?></td>
+          <td><?php echo h($bicycle->gender); ?></td>
+          <td><?php echo h($bicycle->color); ?></td>
+          <td><?php echo "$" . h(number_format($bicycle->price(), 2)); ?></td>
+          <td><a href="detail.php?id=<?php echo h($bicycle->id); ?>">View</a></td>
         </tr>
       <?php } ?>
     </table>

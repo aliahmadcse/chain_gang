@@ -55,6 +55,30 @@ class Bicycle
         return $object;
     }
 
+    public function create()
+    {
+        $sql = "INSERT INTO bicycles (";
+        $sql .= "brand,model,year,category,color,gender,price,weight_kg,condition_id,description";
+        $sql .= ") VALUES (";
+        $sql .= "'" . self::$database->escape_string($this->brand) . "',";
+        $sql .= "'" . self::$database->escape_string($this->model) . "',";
+        $sql .= "'" . self::$database->escape_string($this->year) . "',";
+        $sql .= "'" . self::$database->escape_string($this->category) . "',";
+        $sql .= "'" . self::$database->escape_string($this->color) . "',";
+        $sql .= "'" . self::$database->escape_string($this->gender) . "',";
+        $sql .= "'" . self::$database->escape_string($this->price) . "',";
+        $sql .= "'" . self::$database->escape_string($this->weight_kg) . "',";
+        $sql .= "'" . self::$database->escape_string($this->condition_id) . "',";
+        $sql .= "'" . self::$database->escape_string($this->description) . "'";
+        $sql .= ")";
+
+        $result = self::$database->query($sql);
+        if ($result) {
+            $this->id = self::$database->insert_id;
+        }
+        return $result;
+    }
+
     // ----End of active record code----
 
     //class constants
@@ -137,4 +161,5 @@ class Bicycle
         }
         return "Unknown";
     }
+    
 }
