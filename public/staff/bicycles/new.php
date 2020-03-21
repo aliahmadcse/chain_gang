@@ -5,11 +5,7 @@ require_once('../../../private/initialize.php');
 if (is_post_request()) {
 
   // Create record using post parameters
-  $args = [];
-  foreach ($_POST as $key => $value) {
-    $args[$key] = $value ?? NULL;
-  }
-
+  $args = $_POST['bicycle'];
   $bicycle = new Bicycle($args);
   $result = $bicycle->save();
 

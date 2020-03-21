@@ -14,10 +14,8 @@ if ($bicycle == false) {
 if (is_post_request()) {
 
   // Save record using post parameters
-  $args = [];
-  foreach ($_POST as $key => $value) {
-    $args[$key] = $value ?? NULL;
-  }
+  $args = $_POST['bicycle'];
+
   $bicycle->merge_attributes($args);
   $result = $bicycle->save();
   if ($result === true) {
