@@ -3,6 +3,11 @@ class Bicycle
 {
     // ----Start of active record code----
     protected static $database;
+    protected static $db_columns = [
+        'id', 'brand', 'model', 'year', 'category', 'color',
+        'gender', 'price', 'weight_kg', 'condition_id',
+        'description'
+    ];
     public static function set_database($database)
     {
         self::$database = $database;
@@ -57,20 +62,13 @@ class Bicycle
 
     public function create()
     {
+        $attributes = $this->sanitized_attributes();
+
         $sql = "INSERT INTO bicycles (";
-        $sql .= "brand,model,year,category,color,gender,price,weight_kg,condition_id,description";
-        $sql .= ") VALUES (";
-        $sql .= "'" . self::$database->escape_string($this->brand) . "',";
-        $sql .= "'" . self::$database->escape_string($this->model) . "',";
-        $sql .= "'" . self::$database->escape_string($this->year) . "',";
-        $sql .= "'" . self::$database->escape_string($this->category) . "',";
-        $sql .= "'" . self::$database->escape_string($this->color) . "',";
-        $sql .= "'" . self::$database->escape_string($this->gender) . "',";
-        $sql .= "'" . self::$database->escape_string($this->price) . "',";
-        $sql .= "'" . self::$database->escape_string($this->weight_kg) . "',";
-        $sql .= "'" . self::$database->escape_string($this->condition_id) . "',";
-        $sql .= "'" . self::$database->escape_string($this->description) . "'";
-        $sql .= ")";
+        $sql .= join(',', array_keys($attributes));
+        $sql .= ") VALUES ('";
+        $sql .= join("','", array_values($attributes));
+        $sql .= "')";
 
         $result = self::$database->query($sql);
         if ($result) {
@@ -79,6 +77,27 @@ class Bicycle
         return $result;
     }
 
+    // database columns excluding id
+    public function attributes()
+    {
+        $attributes = [];
+        foreach (self::$db_columns as $column) {
+            if ($column === 'id') {
+                continue;
+            }
+            $attributes[$column] = $this->$column;
+        }
+        return $attributes;
+    }
+
+    protected function sanitized_attributes()
+    {
+        $sanitized = [];
+        foreach ($this->attributes() as $key => $value) {
+            $sanitized[$key] = self::$database->escape_string($value);
+        }
+        return $sanitized;
+    }
     // ----End of active record code----
 
     //class constants
@@ -104,8 +123,8 @@ class Bicycle
     public      $description;
     public      $gender;
     public      $price;
-    protected   $condition_id;
-    protected   $weight_kg = 0.0;
+    public      $condition_id;
+    public      $weight_kg = 0.0;
     // construct magic method to initialize properties
     // at object creation
     public function __construct($args = [])
@@ -161,5 +180,4 @@ class Bicycle
         }
         return "Unknown";
     }
-    
 }
