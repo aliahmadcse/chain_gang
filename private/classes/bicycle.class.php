@@ -8,6 +8,8 @@ class Bicycle
         'gender', 'price', 'weight_kg', 'condition_id',
         'description'
     ];
+    public $errors = [];
+
     public static function set_database($database)
     {
         self::$database = $database;
@@ -60,8 +62,25 @@ class Bicycle
         return $object;
     }
 
+    protected function validate()
+    {
+        $this->errors = [];
+
+        if (is_blank($this->brand)) {
+            $this->errors[] = "Brand can not be blank";
+        }
+        if (is_blank($this->model)) {
+            $this->errors[] = "Model can not be blank";
+        }
+        return $this->errors;
+    }
+
     protected function create()
     {
+        $this->validate();
+        if (!empty($this->errors)) {
+            return false;
+        }
         $attributes = $this->sanitized_attributes();
 
         $sql = "INSERT INTO bicycles (";
@@ -79,6 +98,10 @@ class Bicycle
 
     protected function update()
     {
+        $this->validate();
+        if (!empty($this->errors)) {
+            return false;
+        }
         $attributes = $this->sanitized_attributes();
         $attributes_pairs = [];
         foreach ($attributes as $key => $value) {
@@ -132,6 +155,15 @@ class Bicycle
             $sanitized[$key] = self::$database->escape_string($value);
         }
         return $sanitized;
+    }
+
+    public function delete()
+    {
+        $sql = "DELETE FROM bicycles ";
+        $sql .= "WHERE id='" . self::$database->escape_string($this->id) . "'";
+        $sql .= "LIMIT 1";
+        $result = self::$database->query($sql);
+        return $result;
     }
     // ----End of active record code----
 
