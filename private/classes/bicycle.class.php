@@ -60,7 +60,7 @@ class Bicycle
         return $object;
     }
 
-    public function create()
+    protected function create()
     {
         $attributes = $this->sanitized_attributes();
 
@@ -75,6 +75,41 @@ class Bicycle
             $this->id = self::$database->insert_id;
         }
         return $result;
+    }
+
+    protected function update()
+    {
+        $attributes = $this->sanitized_attributes();
+        $attributes_pairs = [];
+        foreach ($attributes as $key => $value) {
+            $attributes_pairs[] = "{$key}='{$value}'";
+        }
+
+        $sql = "UPDATE bicycles SET ";
+        $sql .= join(',', $attributes_pairs);
+        $sql .= "WHERE id='" . self::$database->escape_string($this->id) . "' ";
+        $sql .= "LIMIT 1";
+        $result = self::$database->query($sql);
+        return $result;
+    }
+
+    public function save()
+    {
+        // a new record will not have an id yet
+        if (isset($this->id)) {
+            return $this->update();
+        } else {
+            return $this->create();
+        }
+    }
+
+    public function merge_attributes($args)
+    {
+        foreach ($args as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     // database columns excluding id
