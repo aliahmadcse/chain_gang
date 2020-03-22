@@ -63,7 +63,7 @@ class DatabaseObject
     protected function validate()
     {
         $this->errors = [];
-        // add custom validations
+        // adds custom validations
         return $this->errors;
     }
 
