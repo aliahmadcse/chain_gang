@@ -17,6 +17,8 @@ $bicycle = Bicycle::find_by_id($id);
 
   <a class="back-link" href="<?php echo url_for('/staff/bicycles/index.php'); ?>">&laquo; Back to List</a>
 
+  <?php display_session_message(); ?>
+  
   <div class="bicycle show">
 
     <h1>Bicycle: <?php echo h($bicycle->name()); ?></h1>

@@ -5,6 +5,7 @@ class Session
     private $admin_id;
     public $username;
     public $last_login;
+    public const MAX_LOGIN_AGE = 60 * 60 * 24; //1 day
 
     public function __construct()
     {
@@ -26,7 +27,7 @@ class Session
 
     public function is_logged_in()
     {
-        return isset($this->admin_id);
+        return isset($this->admin_id) && $this->last_login_is_recent();
     }
 
     public function logged_out()
@@ -48,5 +49,31 @@ class Session
         }
     }
 
-    
+    private function last_login_is_recent()
+    {
+        if (!isset($this->last_login)) {
+            return false;
+        } elseif (($this->last_login + self::MAX_LOGIN_AGE) < time()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function message($msj = "")
+    {
+        if (!empty($msj)) {
+            // this is a set message
+            $_SESSION["message"] = $msj;
+            return true;
+        } else {
+            // this is a get message
+            return $_SESSION["message"] ?? '';
+        }
+    }
+
+    public function clear_message()
+    {
+        unset($_SESSION['message']);
+    }
 }
