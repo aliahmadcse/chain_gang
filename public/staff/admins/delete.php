@@ -2,22 +2,24 @@
 
 require_once('../../../private/initialize.php');
 
-if(!isset($_GET['id'])) {
+require_login();
+
+
+if (!isset($_GET['id'])) {
   redirect_to(url_for('/staff/admins/index.php'));
 }
 $id = $_GET['id'];
 $admin = Admin::find_by_id($id);
-if($admin == false) {
+if ($admin == false) {
   redirect_to(url_for('/staff/admins/index.php'));
 }
 
-if(is_post_request()) {
+if (is_post_request()) {
 
   // Delete admin
   $result = $admin->delete();
   $_SESSION['message'] = 'The admin was deleted successfully.';
   redirect_to(url_for('/staff/admins/index.php'));
-
 } else {
   // Display form
 }

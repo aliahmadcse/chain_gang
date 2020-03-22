@@ -1,10 +1,13 @@
 <?php require_once('../../../private/initialize.php'); ?>
 
+
+<?php require_login(); ?>
+
 <?php
-  
+
 // Find all bicycles;
 $bicycles = Bicycle::find_all();
-  
+
 ?>
 <?php $page_title = 'Bicycles'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
@@ -17,7 +20,7 @@ $bicycles = Bicycle::find_all();
       <a class="action" href="<?php echo url_for('/staff/bicycles/new.php'); ?>">Add Bicycle</a>
     </div>
 
-  	<table class="list">
+    <table class="list">
       <tr>
         <th>ID</th>
         <th>Brand</th>
@@ -32,7 +35,7 @@ $bicycles = Bicycle::find_all();
         <th>&nbsp;</th>
       </tr>
 
-      <?php foreach($bicycles as $bicycle) { ?>
+      <?php foreach ($bicycles as $bicycle) { ?>
         <tr>
           <td><?php echo h($bicycle->id); ?></td>
           <td><?php echo h($bicycle->brand); ?></td>
@@ -45,9 +48,9 @@ $bicycles = Bicycle::find_all();
           <td><a class="action" href="<?php echo url_for('/staff/bicycles/show.php?id=' . h(u($bicycle->id))); ?>">View</a></td>
           <td><a class="action" href="<?php echo url_for('/staff/bicycles/edit.php?id=' . h(u($bicycle->id))); ?>">Edit</a></td>
           <td><a class="action" href="<?php echo url_for('/staff/bicycles/delete.php?id=' . h(u($bicycle->id))); ?>">Delete</a></td>
-    	  </tr>
+        </tr>
       <?php } ?>
-  	</table>
+    </table>
 
   </div>
 

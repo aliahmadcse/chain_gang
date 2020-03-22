@@ -2,21 +2,22 @@
 
 require_once('../../../private/initialize.php');
 
-if(is_post_request()) {
+require_login();
+
+if (is_post_request()) {
 
   // Create record using post parameters
   $args = $_POST['admin'];
   $admin = new Admin($args);
   $result = $admin->save();
 
-  if($result === true) {
+  if ($result === true) {
     $new_id = $admin->id;
     $_SESSION['message'] = 'The admin was created successfully.';
     redirect_to(url_for('/staff/admins/show.php?id=' . $new_id));
   } else {
     // show errors
   }
-
 } else {
   // display the form
   $admin = new Admin;

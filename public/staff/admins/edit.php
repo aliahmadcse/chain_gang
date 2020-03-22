@@ -2,29 +2,30 @@
 
 require_once('../../../private/initialize.php');
 
-if(!isset($_GET['id'])) {
+require_login();
+
+if (!isset($_GET['id'])) {
   redirect_to(url_for('/staff/admins/index.php'));
 }
 $id = $_GET['id'];
 $admin = Admin::find_by_id($id);
-if($admin == false) {
+if ($admin == false) {
   redirect_to(url_for('/staff/admins/index.php'));
 }
 
-if(is_post_request()) {
+if (is_post_request()) {
 
   // Save record using post parameters
   $args = $_POST['admin'];
   $admin->merge_attributes($args);
   $result = $admin->save();
 
-  if($result === true) {
+  if ($result === true) {
     $_SESSION['message'] = 'The admin was updated successfully.';
     redirect_to(url_for('/staff/admins/show.php?id=' . $id));
   } else {
     // show errors
   }
-
 } else {
 
   // display the form
