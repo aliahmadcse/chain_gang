@@ -3,6 +3,8 @@
 class Session
 {
     private $admin_id;
+    public $username;
+    public $last_login;
 
     public function __construct()
     {
@@ -14,8 +16,10 @@ class Session
         if ($admin) {
             // prevents the session fixation attacks
             session_regenerate_id();
-            $_SESSION["admin_id"] = $admin->id;
-            $this->admin_id = $admin->id;
+
+            $this->admin_id = $_SESSION["admin_id"] = $admin->id;
+            $this->username = $_SESSION["username"] = $admin->username;
+            $this->last_login = $_SESSION["last_login"] = time();
         }
         return true;
     }
@@ -28,13 +32,21 @@ class Session
     public function logged_out()
     {
         unset($_SESSION["admin_id"]);
+        unset($_SESSION["username"]);
+        unset($_SESSION["last_login"]);
         unset($this->admin_id);
+        unset($this->last_login);
+        unset($this->username);
     }
 
     private function check_stored_login()
     {
         if (isset($_SESSION['admin_id'])) {
             $this->admin_id = $_SESSION["admin_id"];
+            $this->last_login = $_SESSION["last_login"];
+            $this->username = $_SESSION["username"];
         }
     }
+
+    
 }
